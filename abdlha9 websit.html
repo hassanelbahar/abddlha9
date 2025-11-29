@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Abdelhake Saifi - Portfolio</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Orbitron', sans-serif;
+            background: #1a0000;
+            overflow-x: hidden;
+        }
+
+        #intro-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #1a0000;
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: fadeOut 0.8s ease-out 3s forwards;
+        }
+
+        .intro-icon {
+            font-size: 120px;
+            animation: iconEntrance 2s ease-out;
+            filter: drop-shadow(0 0 30px rgba(0, 255, 0, 0.8));
+        }
+
+        @keyframes iconEntrance {
+            0% {
+                transform: scale(0) rotate(0deg);
+                opacity: 0;
+            }
+            50% {
+                transform: scale(1.2) rotate(180deg);
+            }
+            70% {
+                transform: scale(0.9) rotate(360deg);
+            }
+            100% {
+                transform: scale(1) rotate(360deg);
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadeOut {
+            to {
+                opacity: 0;
+                visibility: hidden;
+            }
+        }
+
+        #canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+
+        .content-wrapper {
+            position: relative;
+            z-index: 2;
+            padding: 40px 0;
+            animation: contentFadeIn 1s ease-out 2.5s both;
+        }
+
+        @keyframes contentFadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .profile-card {
+            background: rgba(20, 20, 20, 0.9);
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 139, 0, 0.5);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(0, 139, 0, 0.3);
+            padding: 50px;
+        }
+
+        .profile-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .profile-image-container {
+            width: 250px;
+            height: 250px;
+            margin: 0 auto 30px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 5px solid #00FF00;
+            box-shadow: 0 10px 40px rgba(0, 255, 0, 0.6);
+            animation: profileFloat 3s ease-in-out infinite;
+        }
+
+        .profile-image-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        @keyframes profileFloat {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        h1 {
+            color: #fff;
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+            text-shadow: 0 0 20px rgba(0, 255, 0, 0.5);
+        }
+
+        .tagline {
+            color: #00FF00;
+            font-size: 1.5rem;
+            font-weight: 500;
+        }
+
+        .section-title {
+            color: #00FF00;
+            font-size: 2rem;
+            padding-bottom: 15px;
+            border-bottom: 3px solid #006400;
+            margin-bottom: 30px;
+        }
+
+        .fun-facts {
+            background: rgba(0, 100, 0, 0.1);
+            border-left: 4px solid #00FF00;
+            padding: 30px;
+            border-radius: 10px;
+        }
+
+        .fun-facts ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .fun-facts li {
+            color: #ccc;
+            font-size: 1.2rem;
+            padding: 15px 0;
+            border-bottom: 1px solid rgba(0, 100, 0, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .fun-facts li:last-child {
+            border-bottom: none;
+        }
+
+        .fun-facts li:hover {
+            color: #00FF00;
+            transform: translateX(10px);
+        }
+
+        .fun-facts li::before {
+            content: "▹ ";
+            color: #00FF00;
+            font-size: 1.5rem;
+            margin-right: 10px;
+        }
+
+        .interests {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .interest-card {
+            background: rgba(0, 100, 0, 0.1);
+            padding: 2.5rem;
+            border-radius: 20px;
+            text-align: center;
+            transition: all 0.4s;
+            cursor: pointer;
+            border: 2px solid rgba(0, 139, 0, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .interest-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #006400 0%, #00FF00 100%);
+            transform: translateY(100%);
+            transition: transform 0.4s;
+            z-index: 0;
+        }
+
+        .interest-card:hover::before {
+            transform: translateY(0);
+        }
+
+        .interest-card:hover {
+            transform: translateY(-15px) scale(1.05);
+            box-shadow: 0 20px 40px rgba(0, 255, 0, 0.3);
+        }
+
+        .interest-card:hover .interest-icon,
+        .interest-card:hover h3,
+        .interest-card:hover p {
+            color: white;
+            position: relative;
+            z-index: 1;
+        }
+
+        .interest-icon {
+            font-size: 5rem;
+            margin-bottom: 1rem;
+            animation: bounce 2s infinite;
+            transition: color 0.4s;
+            position: relative;
+            z-index: 1;
+        }
+
+        .interest-card h3 {
+            color: #00FF00;
+            margin-bottom: 1rem;
+            font-size: 1.8rem;
+            transition: color 0.4s;
+            position: relative;
+            z-index: 1;
+        }
+
+        .interest-card p {
+            color: #ccc;
+            line-height: 1.8;
+            transition: color 0.4s;
+            position: relative;
+            z-index: 1;
+        }
+
+        @keyframes bounce {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-20px);
+            }
+        }
+
+        .skills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 2rem;
+        }
+
+        .skill-tag {
+            background: linear-gradient(135deg, #006400 0%, #00FF00 100%);
+            color: white;
+            padding: 0.8rem 1.8rem;
+            border-radius: 30px;
+            font-size: 1.1rem;
+            transition: all 0.3s;
+            border: 2px solid #006400;
+            animation: fadeIn 0.5s ease-out backwards;
+        }
+
+        .skill-tag:nth-child(1) { animation-delay: 0.1s; }
+        .skill-tag:nth-child(2) { animation-delay: 0.2s; }
+        .skill-tag:nth-child(3) { animation-delay: 0.3s; }
+        .skill-tag:nth-child(4) { animation-delay: 0.4s; }
+        .skill-tag:nth-child(5) { animation-delay: 0.5s; }
+        .skill-tag:nth-child(6) { animation-delay: 0.6s; }
+        .skill-tag:nth-child(7) { animation-delay: 0.7s; }
+        .skill-tag:nth-child(8) { animation-delay: 0.8s; }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.8);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .skill-tag:hover {
+            background: white;
+            color: #006400;
+            transform: scale(1.1) rotate(-5deg);
+            box-shadow: 0 5px 15px rgba(0, 255, 0, 0.3);
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin: 40px 0;
+            flex-wrap: wrap;
+        }
+
+        .social-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 15px 30px;
+            background: linear-gradient(135deg, #006400 0%, #00FF00 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 10px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(0, 255, 0, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .social-link::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .social-link:hover::before {
+            left: 100%;
+        }
+
+        .social-link:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 10px 25px rgba(0, 255, 0, 0.6);
+            color: white;
+        }
+
+        .newsletter-section {
+            background: rgba(0, 100, 0, 0.1);
+            padding: 40px;
+            border-radius: 15px;
+            border: 1px solid rgba(0, 100, 0, 0.3);
+            text-align: center;
+        }
+
+        .newsletter-section h3 {
+            color: #00FF00;
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+        }
+
+        .newsletter-form {
+            display: flex;
+            gap: 15px;
+            max-width: 500px;
+            margin: 0 auto;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .newsletter-form input {
+            flex: 1;
+            min-width: 250px;
+            padding: 15px 20px;
+            border: 2px solid #006400;
+            border-radius: 10px;
+            background: rgba(0, 0, 0, 0.5);
+            color: #fff;
+            font-size: 1rem;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        .newsletter-form input:focus {
+            border-color: #00FF00;
+            box-shadow: 0 0 15px rgba(0, 255, 0, 0.3);
+        }
+
+        .newsletter-form input::placeholder {
+            color: #888;
+        }
+
+        .newsletter-form button {
+            padding: 15px 40px;
+            background: linear-gradient(135deg, #006400 0%, #00FF00 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .newsletter-form button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(0, 255, 0, 0.6);
+        }
+
+        @media (max-width: 768px) {
+            .profile-card {
+                padding: 30px 20px;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            .profile-image-container {
+                width: 180px;
+                height: 180px;
+                font-size: 70px;
+            }
+
+            .newsletter-form {
+                flex-direction: column;
+            }
+
+            .newsletter-form input {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Intro Animation -->
+    <div id="intro-animation">
+        <div class="intro-icon">⚽💻🎵</div>
+    </div>
+    
+    <canvas id="canvas"></canvas>
+    
+    <div class="content-wrapper">
+        <div class="container">
+            <div class="profile-card">
+                <!-- Header Section -->
+                <div class="profile-header">
+                    <div class="profile-image-container">AS</div>
+                    <h1>Hi, I'm Abdelhake Saifi</h1>
+                    <p class="tagline">Developer • Football Player • Music Enthusiast</p>
+                </div>
+
+                <!-- Fun Facts Section -->
+                <div style="margin-bottom: 50px;">
+                    <h2 class="section-title">Fun Facts About Me</h2>
+                    <div class="fun-facts">
+                        <ul>
+                            <li>I love coding and building awesome projects</li>
+                            <li>Football is my passion - on and off the field</li>
+                            <li>Music inspires my creativity every day</li>
+                            <li>Always learning new technologies and skills</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Interests Section -->
+                <div style="margin-bottom: 50px;">
+                    <h2 class="section-title">My Passions</h2>
+                    <div class="interests">
+                        <div class="interest-card">
+                            <div class="interest-icon">⚽</div>
+                            <h3>Football</h3>
+                            <p>Football is more than just a game to me. Whether playing with friends or watching the biggest matches, the beautiful game brings excitement and teamwork into my life.</p>
+                        </div>
+                        
+                        <div class="interest-card">
+                            <div class="interest-icon">💻</div>
+                            <h3>Coding</h3>
+                            <p>I love creating solutions through code. From web development to problem-solving algorithms, programming allows me to bring ideas to life and constantly learn new technologies.</p>
+                        </div>
+                        
+                        <div class="interest-card">
+                            <div class="interest-icon">🎵</div>
+                            <h3>Music</h3>
+                            <p>Music is my escape. Whether I'm coding, relaxing, or working out, the right playlist sets the perfect mood and keeps me motivated throughout the day.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Skills Section -->
+                <div style="margin-bottom: 50px;">
+                    <h2 class="section-title">Skills & Technologies</h2>
+                    <div class="skills">
+                        <span class="skill-tag">HTML & CSS</span>
+                        <span class="skill-tag">JavaScript</span>
+                        <span class="skill-tag">Python</span>
+                        <span class="skill-tag">Web Development</span>
+                        <span class="skill-tag">Problem Solving</span>
+                        <span class="skill-tag">Team Player</span>
+                        <span class="skill-tag">Creative Thinking</span>
+                        <span class="skill-tag">Responsive Design</span>
+                    </div>
+                </div>
+
+                <!-- Connect Section -->
+                <div style="margin-bottom: 50px;">
+                    <h2 class="section-title">Let's Connect</h2>
+                    <div class="social-links">
+                        <a href="#" class="social-link">LinkedIn</a>
+                        <a href="#" class="social-link">GitHub</a>
+                        <a href="#" class="social-link">Instagram</a>
+                        <a href="#" class="social-link">Email</a>
+                    </div>
+                </div>
+
+                <!-- Newsletter Section -->
+                <div class="newsletter-section">
+                    <h3>Join My Newsletter</h3>
+                    <p style="color: #ccc; margin-bottom: 25px;">Stay updated with my latest projects and insights</p>
+                    <form class="newsletter-form" onsubmit="return false;">
+                        <input type="email" placeholder="Enter your email address" required>
+                        <button type="submit">Subscribe</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+
+        const particles = [];
+        const particleCount = 100;
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 3 + 1;
+                this.speedX = Math.random() * 1 - 0.5;
+                this.speedY = Math.random() * 1 - 0.5;
+                this.opacity = Math.random() * 0.5 + 0.2;
+            }
+
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+
+                if (this.x > canvas.width || this.x < 0) {
+                    this.speedX = -this.speedX;
+                }
+                if (this.y > canvas.height || this.y < 0) {
+                    this.speedY = -this.speedY;
+                }
+            }
+
+            draw() {
+                ctx.fillStyle = `rgba(0, 255, 0, ${this.opacity})`;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        for (let i = 0; i < particleCount; i++) {
+            particles.push(new Particle());
+        }
+
+        function connectParticles() {
+            for (let i = 0; i < particles.length; i++) {
+                for (let j = i + 1; j < particles.length; j++) {
+                    const dx = particles[i].x - particles[j].x;
+                    const dy = particles[i].y - particles[j].y;
+                    const distance = Math.sqrt(dx * dx + dy * dy);
+
+                    if (distance < 120) {
+                        ctx.strokeStyle = `rgba(0, 139, 0, ${0.2 - distance / 600})`;
+                        ctx.lineWidth = 1;
+                        ctx.beginPath();
+                        ctx.moveTo(particles[i].x, particles[i].y);
+                        ctx.lineTo(particles[j].x, particles[j].y);
+                        ctx.stroke();
+                    }
+                }
+            }
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            particles.forEach(particle => {
+                particle.update();
+                particle.draw();
+            });
+
+            connectParticles();
+            requestAnimationFrame(animate);
+        }
+
+        animate();
+
+        // Newsletter form submission
+        document.querySelector('.newsletter-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const email = this.querySelector('input').value;
+            alert('Thank you for subscribing! We\'ll keep you updated at ' + email);
+            this.reset();
+        });
+    </script>
+</body>
+</html>
